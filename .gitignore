@@ -1,0 +1,25 @@
+# Node
+frontend/node_modules/
+frontend/build/
+
+# Python
+backend/__pycache__/
+*.pyc
+*.pyo
+*.pyd
+
+# Database
+*.db
+
+# PDFs
+generated_pdfs/
+backend/generated_pdfs/
+
+# Env
+.env
+
+# Logs
+*.log
+
+# VS Code
+.vscode/

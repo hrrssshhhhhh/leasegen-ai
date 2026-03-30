@@ -1,0 +1,31 @@
+RESIDENTIAL LEASE AGREEMENT
+
+This Lease Agreement is made between {{landlord}} ("Landlord") and {{tenant}} ("Tenant").
+
+PROPERTY ADDRESS:
+{{property_address}}
+
+RENT AGREEMENT
+Monthly Rent: {{rent}}
+
+{{rent_clause}}
+
+SECURITY DEPOSIT
+Deposit Amount: {{deposit}}
+
+{{deposit_clause}}
+
+PET POLICY
+{{pet_clause}}
+
+MAINTENANCE
+{{maintenance_clause}}
+
+LATE PAYMENT
+{{late_fee_clause}}
+
+TERMINATION
+{{termination_clause}}
+
+UTILITIES
+{{utilities_clause}}
