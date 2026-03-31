@@ -291,13 +291,13 @@ def duplicate_lease(lease_id):
         INSERT INTO leases (user_id, landlord, tenant, address, rent, lease_text, pdf_file)
         VALUES (?, ?, ?, ?, ?, ?, ?)
     """, (
-        request.user_id,
-        row[1],  # landlord
-        row[2],  # tenant
-        row[3],  # address
-        row[4],  # rent
-        row[5],  # lease_text
-        row[6],  # pdf_file
+        row[1],  # ✅ FIXED user_id
+        row[2],  # landlord
+        row[3],  # tenant
+        row[4],  # address
+        row[5],  # rent
+        row[6],  # lease_text
+        row[7],  # pdf_file
     ))
 
     conn.commit()
