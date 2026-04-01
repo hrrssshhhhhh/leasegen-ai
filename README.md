@@ -174,8 +174,8 @@ Contributions are welcome! Here's how to get involved:
 1. **Fork** the repository
 2. **Clone** your fork locally:
    ```bash
-   git clone https://github.com/your-username/leasegen-ai.git
-   cd leasegen-ai
+   git clone git clone https://github.com/hrrssshhhhhh/LeaseGen.git
+   cd LeaseGen
    ```
 3. **Create a new branch** for your feature or fix:
    ```bash
@@ -233,3 +233,4 @@ This project is licensed under the [MIT License](LICENSE).
 ## 👨‍💻 Author
 
 Made with ❤️ by [hrrssshhhhhh](https://github.com/hrrssshhhhhh)
+
