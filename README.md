@@ -200,7 +200,7 @@ Contributions are welcome! Here's how to get involved:
 
 ### Good First Issues
 
-Looking to contribute but not sure where to start? Check the [Issues](https://github.com/hrrssshhhhhh/leasegen-ai/issues) tab for open tasks. Areas we'd love help with:
+Looking to contribute but not sure where to start? Check the [Issues](https://github.com/hrrssshhhhhh/LeaseGen/issues) tab for open tasks. Areas we'd love help with:
 
 - UI/UX improvements on the Dashboard and Lease page
 - Additional clause templates
