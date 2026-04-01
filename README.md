@@ -1,4 +1,4 @@
-# 🏠 LeaseGen AI
+# 🏠 LeaseGen 
 
 > An AI-powered full-stack application to generate, manage, and download residential lease agreements — built with React and Flask.
 
