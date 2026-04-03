@@ -96,8 +96,8 @@ body{font-family:'DM Sans',sans-serif;background:var(--bg)}
 .su-divider-text{font-size:11px;color:var(--muted);white-space:nowrap}
 
 .su-footer{text-align:center;font-size:13px;color:var(--muted);margin-top:16px}
-.su-footer a{color:var(--gold-light);font-weight:600;cursor:pointer;text-decoration:none}
-.su-footer a:hover{color:var(--gold)}
+.su-footer-btn{background:none;border:none;color:var(--gold-light);font-weight:600;cursor:pointer;font-family:'DM Sans',sans-serif;font-size:13px;padding:0;text-decoration:none}
+.su-footer-btn:hover{color:var(--gold)}
 
 .su-terms{margin-top:24px;padding-top:20px;border-top:1px solid var(--border);font-size:11px;color:var(--muted);text-align:center;line-height:1.6}
 `;
@@ -128,7 +128,6 @@ function Signup() {
       <style>{S}</style>
       <div className="su-page">
 
-        {/* LEFT — Branding */}
         <div className="su-left">
           <div className="su-logo">
             <div className="su-logo-icon">🏠</div>
@@ -156,7 +155,6 @@ function Signup() {
           </div>
         </div>
 
-        {/* RIGHT — Form */}
         <div className="su-right">
           <div className="su-card">
             <div className="su-card-header">
@@ -183,7 +181,7 @@ function Signup() {
             </div>
 
             <div className="su-footer">
-              <a href="#" onClick={() => navigate("/")}>Sign in to your account →</a>
+              <button className="su-footer-btn" onClick={() => navigate("/")}>Sign in to your account →</button>
             </div>
 
             <div className="su-terms">

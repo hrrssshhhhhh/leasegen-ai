@@ -21,7 +21,6 @@ body{font-family:'DM Sans',sans-serif;background:var(--bg)}
 
 .lg-page{min-height:100vh;display:flex;background:var(--bg)}
 
-/* RIGHT branding panel (flipped vs signup for variety) */
 .lg-right-panel{
   width:44%;background:var(--surface);border-left:1px solid var(--border);
   display:flex;flex-direction:column;justify-content:space-between;
@@ -62,7 +61,6 @@ body{font-family:'DM Sans',sans-serif;background:var(--bg)}
 .lg-stat-val{font-size:16px;font-weight:700;color:var(--text);letter-spacing:-0.02em}
 .lg-stat-lbl{font-size:11px;color:var(--muted);font-weight:400}
 
-/* LEFT form panel */
 .lg-left{
   flex:1;display:flex;align-items:center;justify-content:center;
   padding:48px 40px;order:1;
@@ -108,8 +106,8 @@ body{font-family:'DM Sans',sans-serif;background:var(--bg)}
 .lg-divider-text{font-size:11px;color:var(--muted);white-space:nowrap}
 
 .lg-footer{text-align:center;font-size:13px;color:var(--muted);margin-top:16px}
-.lg-footer a{color:var(--gold-light);font-weight:600;cursor:pointer;text-decoration:none}
-.lg-footer a:hover{color:var(--gold)}
+.lg-footer-btn{background:none;border:none;color:var(--gold-light);font-weight:600;cursor:pointer;font-family:'DM Sans',sans-serif;font-size:13px;padding:0;text-decoration:none}
+.lg-footer-btn:hover{color:var(--gold)}
 
 .lg-terms{margin-top:24px;padding-top:20px;border-top:1px solid var(--border);font-size:11px;color:var(--muted);text-align:center;line-height:1.6}
 `;
@@ -145,7 +143,6 @@ function Login() {
       <style>{S}</style>
       <div className="lg-page">
 
-        {/* LEFT — Form */}
         <div className="lg-left">
           <div className="lg-card">
             <div className="lg-card-header">
@@ -179,7 +176,7 @@ function Login() {
             </div>
 
             <div className="lg-footer">
-              <a href="#" onClick={() => navigate("/signup")}>Create a free account →</a>
+              <button className="lg-footer-btn" onClick={() => navigate("/signup")}>Create a free account →</button>
             </div>
 
             <div className="lg-terms">
@@ -188,7 +185,6 @@ function Login() {
           </div>
         </div>
 
-        {/* RIGHT — Branding */}
         <div className="lg-right-panel">
           <div className="lg-logo">
             <div className="lg-logo-icon">🏠</div>
