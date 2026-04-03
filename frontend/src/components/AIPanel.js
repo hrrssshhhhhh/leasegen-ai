@@ -1,3 +1,4 @@
+import API from "../config";
 import { useState, useRef, useEffect } from "react";
 
 const S = `
@@ -126,8 +127,7 @@ const S = `
 .ai-quick-btn:hover{background:rgba(184,134,42,0.09);border-color:rgba(184,134,42,0.22);color:#c9952f}
 `;
 
-import API from "../config";
-import { useState, useRef, useEffect } from "react";
+
 function getToken() { return localStorage.getItem("token"); }
 
 // ── TAB 1: Clause Enhancer ──────────────────────────────
