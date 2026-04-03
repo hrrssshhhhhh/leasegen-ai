@@ -1,5 +1,3 @@
-// Base Florida lease template with placeholders
-
 const floridaLeaseTemplate = `
 RESIDENTIAL LEASE AGREEMENT
 
@@ -23,12 +21,14 @@ SECURITY DEPOSIT
 Deposit Amount: {{deposit}}
 
 The Tenant shall provide a security deposit prior to occupying the premises. The deposit will be held
-by the Landlord as security for the Tenant’s performance of all obligations under this lease agreement.
+by the Landlord as security for the Tenant's performance of all obligations under this lease agreement.
 
 GOVERNING LAW
 This lease shall be governed by the laws of {{state}}.
 
 {{optional_clauses}}
+
+{{additional_clauses}}
 
 LANDLORD SIGNATURE
 ________________________

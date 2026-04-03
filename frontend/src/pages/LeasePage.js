@@ -1,6 +1,8 @@
+import API from "../config";
 import { useState, useEffect } from "react";
 import buildLease from "../builder/buildLease";
 import { useParams, useNavigate } from "react-router-dom";
+import AIPanel from "../components/AIPanel";
 
 const S = `
 @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@500;700&family=DM+Sans:wght@300;400;500;600&display=swap');
@@ -25,7 +27,6 @@ const S = `
   --shadow:0 1px 4px rgba(0,0,0,0.06),0 4px 16px rgba(0,0,0,0.04);
 }
 body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--text)}
-
 .lp{display:flex;height:100vh;font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--text);overflow:hidden}
 
 /* LEFT */
@@ -36,17 +37,13 @@ body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--text)}
 .lp-title{font-family:'Playfair Display',serif;font-size:24px;font-weight:700;color:var(--text)}
 .lp-title span{color:var(--gold-light)}
 .lp-sub{font-size:12px;color:var(--muted);margin-top:4px;font-weight:300}
-
 .lp-scroll{flex:1;overflow-y:auto;padding:20px 28px 0;scrollbar-width:thin;scrollbar-color:var(--surface2) transparent}
-
 .lp-sec{margin-bottom:22px}
 .lp-sec-lbl{font-size:10px;font-weight:600;letter-spacing:.12em;text-transform:uppercase;color:var(--muted);margin-bottom:12px;display:flex;align-items:center;gap:8px}
 .lp-sec-lbl::after{content:'';flex:1;height:1px;background:var(--border)}
-
 .g2{display:grid;grid-template-columns:1fr 1fr;gap:10px}
 .fld{display:flex;flex-direction:column;gap:5px;margin-bottom:10px}
 .fld label{font-size:10px;font-weight:600;letter-spacing:.04em;text-transform:uppercase;color:var(--muted)}
-
 .lp-in{width:100%;padding:9px 12px;background:var(--bg);border:1px solid var(--border);border-radius:9px;color:var(--text);font-family:'DM Sans',sans-serif;font-size:13px;outline:none;transition:border-color .2s,box-shadow .2s}
 .lp-in:focus{border-color:var(--gold-light);box-shadow:0 0 0 3px var(--gold-dim)}
 .lp-in::placeholder{color:var(--muted)}
@@ -64,6 +61,30 @@ body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--text)}
 .tgl-dot{width:6px;height:6px;border-radius:50%;background:var(--border);margin-left:auto;flex-shrink:0;transition:background .2s}
 .tgl.on .tgl-dot{background:var(--gold-light)}
 
+/* AI CLAUSES — title chips on left */
+.ai-clauses-list{display:flex;flex-direction:column;gap:8px;margin-top:4px}
+.ai-clause-chip{
+  display:flex;align-items:center;justify-content:space-between;
+  padding:9px 12px;background:var(--gold-dim);border:1px solid var(--gold-border);
+  border-radius:10px;
+}
+.ai-clause-chip-title{
+  font-size:11px;font-weight:700;color:var(--gold);
+  letter-spacing:.06em;text-transform:uppercase;
+}
+.ai-clause-chip-remove{
+  width:20px;height:20px;border-radius:5px;border:none;
+  background:transparent;color:var(--muted);font-size:14px;
+  cursor:pointer;display:flex;align-items:center;justify-content:center;
+  transition:all .2s;flex-shrink:0;line-height:1;
+}
+.ai-clause-chip-remove:hover{background:rgba(220,38,38,0.1);color:#dc2626}
+
+.ai-clause-empty{
+  padding:12px;background:var(--bg);border:1px dashed var(--border);
+  border-radius:10px;text-align:center;font-size:12px;color:var(--muted);
+}
+
 /* GENERATE BTN */
 .lp-genwrap{padding:16px 28px 20px;flex-shrink:0;border-top:1px solid var(--border);background:var(--surface)}
 .lp-genbtn{width:100%;padding:13px;border-radius:10px;border:none;font-family:'DM Sans',sans-serif;font-size:14px;font-weight:600;cursor:pointer;transition:all .2s;background:var(--gold-light);color:#fff;letter-spacing:.02em}
@@ -77,10 +98,10 @@ body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--text)}
 .lp-prev-badge{display:inline-flex;align-items:center;gap:4px;padding:2px 9px;background:var(--gold-dim);border:1px solid var(--gold-border);border-radius:20px;font-size:10px;font-weight:600;color:var(--gold-light);letter-spacing:.06em;text-transform:uppercase;margin-left:10px}
 .lp-pdf-link{display:inline-flex;align-items:center;gap:6px;padding:7px 14px;background:#eff6ff;border:1px solid #bfdbfe;border-radius:8px;color:var(--blue);text-decoration:none;font-size:12px;font-weight:500;transition:all .2s}
 .lp-pdf-link:hover{background:#dbeafe}
-
+.lp-ai-btn{display:inline-flex;align-items:center;gap:6px;padding:7px 14px;background:var(--gold-dim);border:1px solid var(--gold-border);border-radius:8px;color:var(--gold-light);font-size:12px;font-weight:600;cursor:pointer;font-family:'DM Sans',sans-serif;transition:all .2s;letter-spacing:.02em}
+.lp-ai-btn:hover{background:rgba(184,134,42,0.16);transform:translateY(-1px)}
 .lp-pscroll{flex:1;overflow-y:auto;padding:24px 32px;scrollbar-width:thin;scrollbar-color:var(--surface2) transparent}
 .lp-doc{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:32px 36px;white-space:pre-wrap;line-height:1.8;font-size:13px;color:var(--text2);font-family:'DM Sans',sans-serif;min-height:200px;box-shadow:var(--shadow)}
-
 .lp-empty{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:10px;min-height:220px;color:var(--muted);text-align:center}
 .lp-empty-icon{font-size:34px}
 .lp-empty-ttl{font-size:14px;font-weight:600;color:var(--text)}
@@ -118,6 +139,7 @@ function LeasePage() {
   const navigate = useNavigate();
   const { id } = useParams();
   const isEdit = Boolean(id);
+  const [aiOpen, setAiOpen] = useState(false);
 
   const [form, setForm] = useState({
     landlord: "", tenant: "", address: "", rent: "", deposit: "",
@@ -125,6 +147,9 @@ function LeasePage() {
     petsAllowed: false, utilitiesIncluded: false, furnished: false, parking: false,
     maintenance: true, lateFees: true, landlordEntry: true, tenantEntry: true,
   });
+
+  // AI clauses stored as array of { title, body }
+  const [aiClauses, setAiClauses] = useState([]);
   const [pdf, setPdf] = useState("");
   const [loading, setLoading] = useState(false);
 
@@ -143,13 +168,26 @@ function LeasePage() {
   const toggle = (f) => setForm(p => ({ ...p, [f]: !p[f] }));
   const valid = form.landlord && form.tenant && form.address && form.rent && form.startDate && form.endDate;
 
+  // Called by AIPanel — receives { title, body }
+  const handleAddClause = ({ title, body }) => {
+    setAiClauses(prev => [...prev, { title, body }]);
+    setAiOpen(false);
+  };
+
+  const removeClause = (index) => {
+    setAiClauses(prev => prev.filter((_, i) => i !== index));
+  };
+
+  // Build the full lease text including AI clauses
+  const buildFullLease = () => buildLease(form, aiClauses); // buildlease is in builder/buildLease.js
+
   const generateLease = async () => {
     if (!valid) return alert("Please fill all required fields 📅");
     try {
       setLoading(true);
       const res = await fetch("http://127.0.0.1:5000/generate-pdf", {
         method: "POST", headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ lease: buildLease(form) }),
+        body: JSON.stringify({ lease: buildFullLease() }),
       });
       const data = await res.json();
       setPdf(data.pdf);
@@ -160,7 +198,7 @@ function LeasePage() {
   const handleSubmit = async () => {
     if (!form.tenant || !form.landlord) return alert("Tenant and landlord are required");
     try {
-      const leaseText = buildLease(form);
+      const leaseText = buildFullLease();
       const pdfRes = await fetch("http://127.0.0.1:5000/generate-pdf", {
         method: "POST", headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ lease: leaseText }),
@@ -170,7 +208,13 @@ function LeasePage() {
       const res = await fetch(url, {
         method: isEdit ? "PUT" : "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ ...form, user_id: localStorage.getItem("user_id"), lease: leaseText, pdf_file: pdfData.pdf }),
+        body: JSON.stringify({
+          ...form,
+          user_id: localStorage.getItem("user_id"),
+          lease_text: leaseText,
+          pdf_file: pdfData.pdf,
+          ai_clauses: JSON.stringify(aiClauses)
+        }),
       });
       const data = await res.json();
       if (res.ok) { alert(isEdit ? "Lease Updated!" : "Lease Saved!"); navigate("/dashboard"); }
@@ -188,7 +232,7 @@ function LeasePage() {
 
   useEffect(() => {
     if (!isEdit) return;
-    fetch(`http://127.0.0.1:5000/lease/${id}`).then(r => r.json()).then(d =>
+    fetch(`http://127.0.0.1:5000/lease/${id}`).then(r => r.json()).then(d => {
       setForm({
         landlord: d.landlord||"", tenant: d.tenant||"", address: d.address||"",
         rent: d.rent||"", deposit: d.deposit||"", state: d.state||"Florida",
@@ -197,11 +241,12 @@ function LeasePage() {
         furnished: d.furnished||false, parking: d.parking||false,
         maintenance: d.maintenance??true, lateFees: d.lateFees??true,
         landlordEntry: d.landlordEntry??true, tenantEntry: d.tenantEntry??true,
-      })
-    );
+      });
+      setAiClauses(JSON.parse(d.ai_clauses || "[]"));
+    })
   }, [id, isEdit]);
 
-  const preview = buildLease(form);
+  const preview = buildFullLease();
   const hasPreview = preview && preview.trim().length > 20;
 
   return (
@@ -254,9 +299,28 @@ function LeasePage() {
                 <Toggle label="Furnished"           icon="🛋️" checked={form.furnished}         onChange={() => toggle("furnished")} />
                 <Toggle label="Parking"             icon="🚗" checked={form.parking}           onChange={() => toggle("parking")} />
                 <Toggle label="Maintenance"         icon="🔧" checked={form.maintenance}       onChange={() => toggle("maintenance")} />
-                <Toggle label="Late Fees"           icon="📅" checked={form.lateFees}         onChange={() => toggle("lateFees")} />
-                <Toggle label="Landlord Entry"      icon="🔑" checked={form.landlordEntry}    onChange={() => toggle("landlordEntry")} />
-                <Toggle label="Tenant Entry"        icon="🚪" checked={form.tenantEntry}      onChange={() => toggle("tenantEntry")} />
+                <Toggle label="Late Fees"           icon="📅" checked={form.lateFees}          onChange={() => toggle("lateFees")} />
+                <Toggle label="Landlord Entry"      icon="🔑" checked={form.landlordEntry}     onChange={() => toggle("landlordEntry")} />
+                <Toggle label="Tenant Entry"        icon="🚪" checked={form.tenantEntry}       onChange={() => toggle("tenantEntry")} />
+              </div>
+            </div>
+
+            {/* AI CLAUSES — titles only on left */}
+            <div className="lp-sec">
+              <div className="lp-sec-lbl">AI Clauses</div>
+              <div className="ai-clauses-list">
+                {aiClauses.length === 0 ? (
+                  <div className="ai-clause-empty">
+                    No AI clauses added yet. Use ✦ AI Tools to enhance and add clauses.
+                  </div>
+                ) : (
+                  aiClauses.map((c, i) => (
+                    <div key={i} className="ai-clause-chip">
+                      <span className="ai-clause-chip-title">✦ {c.title}</span>
+                      <button className="ai-clause-chip-remove" onClick={() => removeClause(i)}>✕</button>
+                    </div>
+                  ))
+                )}
               </div>
             </div>
 
@@ -276,11 +340,14 @@ function LeasePage() {
               Live Preview
               {hasPreview && <span className="lp-prev-badge">✦ Ready</span>}
             </div>
-            {pdf && (
-              <a href={`http://127.0.0.1:5000/generated_pdfs/${pdf}`} target="_blank" rel="noreferrer" className="lp-pdf-link">
-                ↗ Download PDF
-              </a>
-            )}
+            <div style={{ display: "flex", gap: "8px", alignItems: "center" }}>
+              <button className="lp-ai-btn" onClick={() => setAiOpen(true)}>✦ AI Tools</button>
+              {pdf && (
+                <a href={`http://127.0.0.1:5000/generated_pdfs/${pdf}`} target="_blank" rel="noreferrer" className="lp-pdf-link">
+                  ↗ Download PDF
+                </a>
+              )}
+            </div>
           </div>
 
           <div className="lp-pscroll">
@@ -303,6 +370,14 @@ function LeasePage() {
         </div>
 
       </div>
+
+      {/* AI PANEL */}
+      <AIPanel
+        open={aiOpen}
+        onClose={() => setAiOpen(false)}
+        leaseText={preview}
+        onAddClause={handleAddClause}
+      />
     </>
   );
 }

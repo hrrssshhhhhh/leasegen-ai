@@ -4,7 +4,6 @@ import os
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 DB_PATH = os.path.join(BASE_DIR, "leases.db")
 
-# Create DB and table
 def init_db():
     conn = sqlite3.connect(DB_PATH)
     cursor = conn.cursor()
@@ -19,11 +18,12 @@ def init_db():
         address TEXT,
         rent TEXT,
         lease_text TEXT,
-        pdf_file TEXT
+        pdf_file TEXT,
+        ai_clauses TEXT
     )
     """)
 
-    # ✅ users table (ADD THIS)
+    # users table
     cursor.execute("""
     CREATE TABLE IF NOT EXISTS users (
         id INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -32,10 +32,16 @@ def init_db():
     )
     """)
 
+    # Migration — add ai_clauses column if it doesn't exist yet
+    try:
+        cursor.execute("ALTER TABLE leases ADD COLUMN ai_clauses TEXT")
+    except:
+        pass  # column already exists, that's fine
+
+    # ONE commit and ONE close at the very end
     conn.commit()
     conn.close()
 
 
-# Return DB connection
 def get_connection():
     return sqlite3.connect(DB_PATH)
