@@ -127,6 +127,7 @@ const S = `
 `;
 
 import API from "../config";
+import { useState, useRef, useEffect } from "react";
 function getToken() { return localStorage.getItem("token"); }
 
 // ── TAB 1: Clause Enhancer ──────────────────────────────
